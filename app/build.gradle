@@ -9,8 +9,8 @@ android {
 
     defaultConfig {
         applicationId "com.mocklocation"
-        minSdk 21
-        targetSdk 34
+        minSdkVersion 21
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
     }
