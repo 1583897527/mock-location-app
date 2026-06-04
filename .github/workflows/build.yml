@@ -8,7 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -21,19 +20,30 @@ jobs:
 
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
+      with:
+        api-level: 34
+        build-tools-version: '34.0.0'
 
-    - name: Grant execute permission
-      run: chmod +x gradlew || true
+    - name: Download Gradle 8.2
+      run: |
+        wget -q https://mirrors.cloud.tencent.com/gradle/gradle-8.2-bin.zip -O gradle-8.2-bin.zip
+        unzip -o gradle-8.2-bin.zip
+        echo "$PWD/gradle-8.2/bin" >> $GITHUB_PATH
+      working-directory: /tmp
+
+    - name: Create local.properties
+      run: echo "sdk.dir=$ANDROID_HOME" > local.properties
 
     - name: Build debug APK
-      run: |
-        echo "sdk.dir=$ANDROID_HOME" > local.properties
-        ./gradlew assembleDebug --no-daemon 2>&1 || true
+      run: gradle assembleDebug --no-daemon --stacktrace
+
+    - name: List build outputs (debug)
+      run: find app/build -name "*.apk" || echo "No APK found"
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
       if: always()
       with:
         name: app-debug-apk
-        path: "**/*.apk"
-        if-no-files-found: ignore
+        path: app/build/outputs/apk/debug/*.apk
+        if-no-files-found: error
