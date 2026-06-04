@@ -10,8 +10,7 @@
         android:allowBackup="true"
         android:label="模拟定位"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:requestLegacyExternalStorage="true">
+        android:usesCleartextTraffic="true">
 
         <activity
             android:name=".MainActivity"
