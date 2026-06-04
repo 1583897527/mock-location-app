@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity() {
     private fun checkMockLocationApp() {
         // 检查是否已开启开发者选项并设置本App为模拟位置应用
         if (!Settings.canDrawOverlays(this)) {
-            tvTip.text = "⚠️ 请先把本App设为模拟位置应用：\n设置 → 开发者选项 → 模拟位置应用 → 选择本App"
+            // 仅提示，不阻塞
         }
     }
 
